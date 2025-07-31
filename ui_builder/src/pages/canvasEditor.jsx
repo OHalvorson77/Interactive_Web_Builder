@@ -28,7 +28,7 @@ const DraggableComponent = ({ component }) => {
   );
 };
 
-const RenderComponent = ({ component, onDropInside }) => {
+const RenderComponent = ({ component, onDropInside, onSelect, selectedIndex, index }) => {
   const [, drop] = useDrop(() => ({
     accept: 'component',
     drop: (item) => {
@@ -39,12 +39,21 @@ const RenderComponent = ({ component, onDropInside }) => {
     canDrop: () => component.type === 'container',
   }));
 
-  
+  const isSelected = selectedIndex === index;
 
   return (
     <div
       ref={component.type === 'container' ? drop : null}
-      className={`p-2 m-2 ${component.type === 'container' ? 'border border-purple-300 bg-gray-100 rounded' : ''}`}
+      className={`p-2 m-2 ${component.type === 'container' ? 'border border-purple-300 bg-gray-100 rounded' : ''} ${isSelected ? 'ring-2 ring-purple-500' : ''}`}
+      style={{
+        width: `${component.width}%`,
+        height: `${component.height}px`,
+        backgroundColor: component.backgroundColor || "#fff",
+      }}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent deselection from canvas click
+        onSelect(index);
+      }}
     >
       {component.type === 'button' && (
         <button className="px-4 py-2 bg-purple-600 text-white rounded shadow">Button</button>
@@ -52,12 +61,20 @@ const RenderComponent = ({ component, onDropInside }) => {
       {component.type === 'text' && <p className="text-purple-800">Sample Text</p>}
       {component.type === 'input' && <input className="border px-2 py-1 rounded w-full" placeholder="Input" />}
       {component.type === 'container' &&
-        component.children?.map((child) => (
-          <RenderComponent key={child.id} component={child} onDropInside={onDropInside} />
+        component.children?.map((child, i) => (
+          <RenderComponent
+            key={child.id}
+            component={child}
+            onDropInside={onDropInside}
+            onSelect={onSelect}
+            selectedIndex={selectedIndex}
+            index={i}
+          />
         ))}
     </div>
   );
 };
+
 
 
 export default function CanvasEditorPage() {
@@ -94,12 +111,20 @@ export default function CanvasEditorPage() {
       className="flex-1 min-h-[500px] border-2 border-dashed border-purple-300 bg-gray-50 p-4 rounded overflow-y-auto"
       onClick={() => onSelect(null)}
     >
-      {droppedComponents.map((comp) => (
-  <RenderComponent key={comp.id} component={comp} onDropInside={handleDropInsideContainer} />
-))}
+      {droppedComponents.map((comp, i) => (
+        <RenderComponent
+          key={comp.id}
+          component={comp}
+          onDropInside={handleDropInsideContainer}
+          onSelect={onSelect}
+          selectedIndex={selectedIndex}
+          index={i}
+        />
+      ))}
     </div>
   );
 };
+
 
   const updateSelectedComponent = (updates) => {
     if (selectedIndex === null) return;
