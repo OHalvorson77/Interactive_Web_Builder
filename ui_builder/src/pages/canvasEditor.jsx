@@ -28,40 +28,49 @@ const DraggableComponent = ({ component }) => {
   );
 };
 
-const RenderComponent = ({ component, onDropInside, onSelect, selectedIndex, index }) => {
+const RenderComponent = ({
+  component,
+  onDropInside,
+  onSelect,
+  selectedIndex,
+  index,
+}) => {
   const [, drop] = useDrop(() => ({
-    accept: 'component',
+    accept: "component",
     drop: (item) => {
-      if (component.type === 'container') {
+      if (component.type === "container") {
         onDropInside(component.id, item.component);
       }
     },
-    canDrop: () => component.type === 'container',
+    canDrop: () => component.type === "container",
   }));
 
   const isSelected = selectedIndex === index;
 
-  return (
-    <div
-      ref={component.type === 'container' ? drop : null}
-      className={`p-2 m-2 ${component.type === 'container' ? 'border border-purple-300 bg-gray-100 rounded' : ''} ${isSelected ? 'ring-2 ring-purple-500' : ''}`}
-      style={{
-        width: `${component.width}%`,
-        height: `${component.height}px`,
-        backgroundColor: component.backgroundColor || "#fff",
-      }}
-      onClick={(e) => {
-        e.stopPropagation(); // Prevent deselection from canvas click
-        onSelect(index);
-      }}
-    >
-      {component.type === 'button' && (
-        <button className="px-4 py-2 bg-purple-600 text-white rounded shadow">Button</button>
-      )}
-      {component.type === 'text' && <p className="text-purple-800">Sample Text</p>}
-      {component.type === 'input' && <input className="border px-2 py-1 rounded w-full" placeholder="Input" />}
-      {component.type === 'container' &&
-        component.children?.map((child, i) => (
+  const wrapperStyle = {
+    display: 'inline-block',
+    width: `${component.width}%`,
+    height: `${component.height}px`,
+    backgroundColor: component.backgroundColor || "#fff",
+    outline: isSelected ? "2px solid #9333ea" : "none",
+  };
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    onSelect(index);
+  };
+
+  if (component.type === "container") {
+    return (
+      <div
+        ref={drop}
+        className={`p-2 m-2 border border-purple-300 bg-gray-100 rounded ${
+          isSelected ? "ring-2 ring-purple-500" : ""
+        }`}
+        style={wrapperStyle}
+        onClick={handleClick}
+      >
+        {component.children?.map((child, i) => (
           <RenderComponent
             key={child.id}
             component={child}
@@ -71,9 +80,32 @@ const RenderComponent = ({ component, onDropInside, onSelect, selectedIndex, ind
             index={i}
           />
         ))}
-    </div>
+      </div>
+    );
+  }
+
+  return (
+    <span style={wrapperStyle} onClick={handleClick}>
+      {component.type === "button" && (
+        <button className="w-full h-full px-4 py-2 bg-purple-600 text-white rounded shadow">
+          Button
+        </button>
+      )}
+      {component.type === "text" && (
+        <p className="w-full h-full text-purple-800">Sample Text</p>
+      )}
+      {component.type === "input" && (
+        <input
+          className="w-full h-full border px-2 py-1 rounded"
+          placeholder="Input"
+        />
+      )}
+    </span>
   );
 };
+
+
+
 
 
 
