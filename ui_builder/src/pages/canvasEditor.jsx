@@ -1,3 +1,4 @@
+// CanvasEditorPage.jsx
 import React, { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -8,12 +9,11 @@ import DroppableCanvas from "../components/droppableCanvas";
 import { COMPONENTS } from "../data/COMPONENTS";
 import ComponentInspector from "../components/componentInspector";
 
-
+import "../styles/pages/CanvasEditorPage.css";
 const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
-    const [showSidebar, setShowSidebar] = useState(true);
- 
+  const [showSidebar, setShowSidebar] = useState(true);
 
   const handleDrop = (item) => {
     const newItem = { ...item, id: uuid() };
@@ -45,21 +45,21 @@ const CanvasEditorPage = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-4 min-h-screen">
-        <div className="col-span-1 p-4 bg-gray-50 border-r flex flex-col overflow-y-auto">
+      <div className="container-grid">
+        <div className="sidebar">
           {showSidebar && (
             <div className="relative">
               <div>
-                <h2 className="text-lg font-bold mb-2">Components</h2>
+                <h2>Components</h2>
                 {COMPONENTS.map((component, i) => (
                   <DraggableComponent key={i} component={component} />
                 ))}
               </div>
 
-              <hr className="my-4 border-gray-300" />
+              <hr />
 
-              <div className="mt-4">
-                <h2 className="text-lg font-bold mb-2">Editor</h2>
+              <div className="editor-section">
+                <h2>Editor</h2>
                 <ComponentInspector
                   component={components[selectedIndex]}
                   onChange={(updatedComponent) => {
@@ -74,7 +74,8 @@ const CanvasEditorPage = () => {
 
               <button
                 onClick={() => setShowSidebar(false)}
-                className="absolute top-4 -right-3 bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 text-sm rounded-r shadow"
+                className="toggle-button"
+                aria-label="Close sidebar"
               >
                 &lt;
               </button>
@@ -85,13 +86,14 @@ const CanvasEditorPage = () => {
         {!showSidebar && (
           <button
             onClick={() => setShowSidebar(true)}
-            className="absolute top-4 left-0 bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 text-sm rounded-r shadow z-50"
+            className="toggle-button-left"
+            aria-label="Open sidebar"
           >
             &gt;
           </button>
         )}
 
-        <div className="col-span-3 p-4">
+        <div className="main-canvas">
           <DroppableCanvas
             components={components}
             onDrop={handleDrop}
@@ -102,7 +104,6 @@ const CanvasEditorPage = () => {
         </div>
       </div>
     </DndProvider>
-  
   );
 };
 

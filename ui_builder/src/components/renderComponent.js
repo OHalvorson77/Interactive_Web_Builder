@@ -1,5 +1,6 @@
 import React from "react";
 import { useDrop } from "react-dnd";
+import "../styles/components/RenderComponent.css";
 
 const RenderComponent = ({
   component,
@@ -23,7 +24,9 @@ const RenderComponent = ({
     onSelect(index);
   };
 
-  const wrapperStyle = {
+  // We merge inline styles for dynamic styles from component.styles
+  // Outline for isOver handled by CSS below is replaced by inline outline here
+  const inlineStyle = {
     ...component.styles,
     outline: isOver ? "2px dashed #a78bfa" : "none",
   };
@@ -32,19 +35,17 @@ const RenderComponent = ({
     return (
       <div
         ref={drop}
-        className={`p-2 m-2 border border-purple-300 bg-gray-100 rounded ${
-          selectedIndex === index ? "ring-2 ring-purple-500" : ""
+        className={`render-container ${
+          selectedIndex === index ? "selected" : ""
         }`}
-        style={wrapperStyle}
+        style={inlineStyle}
         onClick={handleClick}
       >
         {component.children?.map((child, i) => (
           <RenderComponent
             key={child.id}
             component={child}
-            onDropInside={(childItem) =>
-              onDropInside(childItem, index, i)
-            }
+            onDropInside={(childItem) => onDropInside(childItem, index, i)}
             onSelect={onSelect}
             selectedIndex={selectedIndex}
             index={i}
@@ -57,22 +58,18 @@ const RenderComponent = ({
   return (
     <div
       ref={drop}
-      className={`p-2 m-2 border ${
-        selectedIndex === index ? "ring-2 ring-purple-500" : ""
+      className={`render-container non-container ${
+        selectedIndex === index ? "selected" : ""
       }`}
-      style={wrapperStyle}
+      style={inlineStyle}
       onClick={handleClick}
     >
       {component.type === "button" && (
-        <button className="px-4 py-2 bg-purple-600 text-white rounded shadow">
-          {component.text || "Button"}
-        </button>
+        <button className="render-button">{component.text || "Button"}</button>
       )}
-      {component.type === "text" && (
-        <p>{component.text || "Text"}</p>
-      )}
+      {component.type === "text" && <p>{component.text || "Text"}</p>}
       {component.type === "input" && (
-        <input className="p-2 border rounded w-full" placeholder="Input" />
+        <input className="render-input" placeholder="Input" />
       )}
     </div>
   );

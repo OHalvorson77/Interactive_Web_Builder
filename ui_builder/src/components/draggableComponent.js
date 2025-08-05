@@ -1,5 +1,6 @@
 import React from "react";
 import { useDrag } from "react-dnd";
+import "../styles/components/DraggableComponent.css";
 
 const DraggableComponent = ({ component }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -13,8 +14,7 @@ const DraggableComponent = ({ component }) => {
   return (
     <div
       ref={drag}
-      className="p-2 border rounded bg-white shadow-sm cursor-pointer hover:bg-gray-100"
-      style={{ opacity: isDragging ? 0.5 : 1 }}
+      className={`draggable-component ${isDragging ? "dragging" : ""}`}
     >
       {component.label}
     </div>

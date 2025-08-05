@@ -1,0 +1,17 @@
+/* DroppableCanvas.css */
+
+.droppable-canvas {
+  min-height: 500px;
+  border-width: 2px;
+  border-style: dashed;
+  border-radius: 0.375rem; /* rounded-md */
+  padding: 1rem; /* p-4 */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border-color: #d1d5db; /* gray-300 */
+  background-color: white;
+}
+
+.droppable-canvas.over {
+  border-color: #a78bfa; /* purple-400 */
+  background-color: #f5f3ff; /* purple-50 */
+}

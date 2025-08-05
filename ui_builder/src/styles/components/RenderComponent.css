@@ -1,0 +1,59 @@
+/* RenderComponent.css */
+
+.render-container {
+  padding: 0.5rem; /* p-2 */
+  margin: 0.5rem; /* m-2 */
+  border-width: 1px;
+  border-style: solid;
+  border-color: #c4b5fd; /* border-purple-300 */
+  background-color: #f3f4f6; /* bg-gray-100 */
+  border-radius: 0.375rem; /* rounded */
+  transition: box-shadow 0.2s ease, outline 0.2s ease;
+  cursor: pointer;
+}
+
+.render-container.selected {
+  outline: none;
+  box-shadow: 0 0 0 2px #8b5cf6; /* ring-2 ring-purple-500 */
+}
+
+.render-container.non-container {
+  padding: 0.5rem; /* p-2 */
+  margin: 0.5rem; /* m-2 */
+  border-width: 1px;
+  border-style: solid;
+  border-color: #c4b5fd; /* border-purple-300 */
+  border-radius: 0.375rem; /* rounded */
+  transition: box-shadow 0.2s ease, outline 0.2s ease;
+  cursor: pointer;
+}
+
+.render-container.non-container.selected {
+  outline: none;
+  box-shadow: 0 0 0 2px #8b5cf6; /* ring-2 ring-purple-500 */
+}
+
+/* Button inside */
+.render-button {
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  background-color: #7c3aed; /* bg-purple-600 */
+  color: white;
+  border-radius: 0.375rem; /* rounded */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* shadow */
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.render-button:hover {
+  filter: brightness(1.1);
+}
+
+/* Input */
+.render-input {
+  padding: 0.5rem; /* p-2 */
+  border: 1px solid #d1d5db; /* border */
+  border-radius: 0.375rem; /* rounded */
+  width: 100%;
+  box-sizing: border-box;
+}

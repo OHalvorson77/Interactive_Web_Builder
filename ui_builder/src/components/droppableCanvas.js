@@ -1,6 +1,7 @@
 import React from "react";
 import { useDrop } from "react-dnd";
 import RenderComponent from "./renderComponent";
+import "../styles/components/DroppableCanvas.css";
 
 const DroppableCanvas = ({
   components,
@@ -20,9 +21,7 @@ const DroppableCanvas = ({
   return (
     <div
       ref={drop}
-      className={`min-h-[500px] border-2 border-dashed rounded-md p-4 ${
-        isOver ? "border-purple-400 bg-purple-50" : "border-gray-300"
-      }`}
+      className={`droppable-canvas ${isOver ? "over" : ""}`}
     >
       {components.map((component, index) => (
         <RenderComponent

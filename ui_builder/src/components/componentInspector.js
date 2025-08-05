@@ -1,8 +1,9 @@
 import React from "react";
+import "../styles/components/componentInspector.css";
 
 const ComponentInspector = ({ component, onChange }) => {
   if (!component) {
-    return <p className="text-gray-500">No component selected.</p>;
+    return <p className="component-inspector__no-selection">No component selected.</p>;
   }
 
   const handleChange = (e) => {
@@ -10,16 +11,17 @@ const ComponentInspector = ({ component, onChange }) => {
   };
 
   return (
-    <div>
-      <h3 className="text-lg font-bold mb-2">Component Settings</h3>
-      <label className="block mb-2 text-sm font-medium text-gray-700">
+    <div className="component-inspector">
+      <h3 className="component-inspector__title">Component Settings</h3>
+      <label className="component-inspector__label" htmlFor="labelInput">
         Label:
       </label>
       <input
+        id="labelInput"
         type="text"
         value={component.label || ""}
         onChange={handleChange}
-        className="w-full px-2 py-1 border border-gray-300 rounded"
+        className="component-inspector__input"
       />
     </div>
   );
