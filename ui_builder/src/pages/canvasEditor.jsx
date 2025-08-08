@@ -1,4 +1,3 @@
-// CanvasEditorPage.jsx
 import React, { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -10,6 +9,8 @@ import { COMPONENTS } from "../data/COMPONENTS";
 import ComponentInspector from "../components/componentInspector";
 
 import "../styles/pages/CanvasEditorPage.css";
+import "../styles/components/DraggableComponent.css"; // make sure grid styles are loaded
+
 const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -51,9 +52,13 @@ const CanvasEditorPage = () => {
             <div className="relative">
               <div>
                 <h2>Components</h2>
-                {COMPONENTS.map((component, i) => (
-                  <DraggableComponent key={i} component={component} />
-                ))}
+
+                {/* Wrap draggable components in the grid */}
+                <div className="draggable-components-grid">
+                  {COMPONENTS.map((component, i) => (
+                    <DraggableComponent key={i} component={component} />
+                  ))}
+                </div>
               </div>
 
               <hr />

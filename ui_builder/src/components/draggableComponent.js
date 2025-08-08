@@ -11,12 +11,45 @@ const DraggableComponent = ({ component }) => {
     }),
   }));
 
+  const getIcon = (type) => {
+    switch (type) {
+      case "button":
+        return "🔘";
+      case "text":
+        return "📝";
+      case "input":
+        return "⌨️";
+      case "container":
+        return "📦";
+      default:
+        return "🔧";
+    }
+  };
+
+  // small visual preview colors (fallbacks)
+  const previewBg = component.styles?.backgroundColor || "#ffffff";
+  const previewColor = component.styles?.color || "#374151";
+
   return (
     <div
       ref={drag}
       className={`draggable-component ${isDragging ? "dragging" : ""}`}
+      role="button"
+      aria-grabbed={isDragging}
     >
-      {component.label}
+      <div
+        className="draggable-component__icon"
+        style={{
+          background: previewBg,
+          color: previewColor,
+          // if background is transparent, show subtle border
+          border: previewBg === "transparent" ? "1px solid #e5e7eb" : undefined,
+        }}
+      >
+        {getIcon(component.type)}
+      </div>
+
+      <div className="draggable-component__label">{component.label}</div>
     </div>
   );
 };

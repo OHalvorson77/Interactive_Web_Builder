@@ -2,6 +2,8 @@
 
 .component-inspector {
   /* container styling */
+  color: black;
+  background-color:white;
 }
 
 .component-inspector__title {
