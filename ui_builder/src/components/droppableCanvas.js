@@ -12,7 +12,14 @@ const DroppableCanvas = ({
 }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "component",
-    drop: (item) => onDrop(item),
+    drop: (item, monitor) => {
+      // If a nested drop (onDropInside) already handled it, skip onDrop
+      if (monitor.didDrop()) return;
+
+      if (onDrop) {
+        onDrop(item);
+      }
+    },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),

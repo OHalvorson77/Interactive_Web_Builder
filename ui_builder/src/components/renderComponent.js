@@ -12,7 +12,9 @@ const RenderComponent = ({
   const [{ isOver }, drop] = useDrop({
     accept: "component",
     drop: (item) => {
-      onDropInside(item, index);
+      if (component.type === "container") {
+        onDropInside(item, index);
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -24,13 +26,12 @@ const RenderComponent = ({
     onSelect(index);
   };
 
-  // We merge inline styles for dynamic styles from component.styles
-  // Outline for isOver handled by CSS below is replaced by inline outline here
   const inlineStyle = {
     ...component.styles,
     outline: isOver ? "2px dashed #a78bfa" : "none",
   };
 
+  // CONTAINER: droppable area that can hold children
   if (component.type === "container") {
     return (
       <div
@@ -55,24 +56,47 @@ const RenderComponent = ({
     );
   }
 
-  return (
-    <div
-      ref={drop}
-      className={`render-container non-container ${
-        selectedIndex === index ? "selected" : ""
-      }`}
-      style={inlineStyle}
-      onClick={handleClick}
-    >
-      {component.type === "button" && (
-        <button className="render-button">{component.text || "Button"}</button>
-      )}
-      {component.type === "text" && <p>{component.text || "Text"}</p>}
-      {component.type === "input" && (
-        <input className="render-input" placeholder="Input" />
-      )}
-    </div>
-  );
+  // NON-CONTAINERS: render directly without extra wrapper
+  switch (component.type) {
+    case "button":
+      return (
+        <button
+          style={inlineStyle}
+          className={`render-button ${
+            selectedIndex === index ? "selected" : ""
+          }`}
+          onClick={handleClick}
+        >
+          {component.text || "Button"}
+        </button>
+      );
+
+    case "text":
+      return (
+        <p
+          style={inlineStyle}
+          className={selectedIndex === index ? "selected" : ""}
+          onClick={handleClick}
+        >
+          {component.text || "Text"}
+        </p>
+      );
+
+    case "input":
+      return (
+        <input
+          style={inlineStyle}
+          className={`render-input ${
+            selectedIndex === index ? "selected" : ""
+          }`}
+          placeholder="Input"
+          onClick={handleClick}
+        />
+      );
+
+    default:
+      return null;
+  }
 };
 
 export default RenderComponent;
