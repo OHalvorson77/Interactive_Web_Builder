@@ -9,7 +9,7 @@ import { COMPONENTS } from "../data/COMPONENTS";
 import ComponentInspector from "../components/componentInspector";
 
 import "../styles/pages/CanvasEditorPage.css";
-import "../styles/components/DraggableComponent.css"; // make sure grid styles are loaded
+import "../styles/components/DraggableComponent.css";
 
 const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
@@ -53,7 +53,6 @@ const CanvasEditorPage = () => {
               <div>
                 <h2>Components</h2>
 
-                {/* Wrap draggable components in the grid */}
                 <div className="draggable-components-grid">
                   {COMPONENTS.map((component, i) => (
                     <DraggableComponent key={i} component={component} />

@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   min-height: 100vh;
-  background-color: #f9fafb; /* soft off-white */
+  background-color: #f9fafb;
 }
 
 .sidebar {

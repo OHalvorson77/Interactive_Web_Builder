@@ -1,7 +1,7 @@
 .draggable-components-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  gap: 1rem; /* space between boxes */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 1rem; 
 }
 
 .draggable-component {
@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  aspect-ratio: 1 / 1; /* Makes it a square */
+  aspect-ratio: 1 / 1; 
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   background-color: white;
@@ -33,7 +33,7 @@
 }
 
 .draggable-component__icon {
-  font-size: 2rem; /* Bigger icon */
+  font-size: 2rem; 
   margin-bottom: 0.5rem;
 }
 

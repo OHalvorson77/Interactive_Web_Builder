@@ -20,7 +20,6 @@ const ComponentInspector = ({ component, onChange }) => {
   };
 
   const renderStyleField = (key, value) => {
-    // Detect field type
     let inputType = "text";
     if (typeof value === "number") inputType = "number";
     if (typeof value === "boolean") inputType = "checkbox";
@@ -63,7 +62,6 @@ const ComponentInspector = ({ component, onChange }) => {
     <div className="component-inspector">
       <h3 className="component-inspector__title">Component Settings</h3>
 
-      {/* Label Field */}
       <div className="component-inspector__field">
         <label className="component-inspector__label" htmlFor="labelInput">
           Label:
@@ -77,7 +75,6 @@ const ComponentInspector = ({ component, onChange }) => {
         />
       </div>
 
-      {/* Dynamic Style Fields */}
       <h4 className="component-inspector__subtitle">Styles</h4>
       {Object.entries(component.styles || {}).map(([key, value]) =>
         renderStyleField(key, value)

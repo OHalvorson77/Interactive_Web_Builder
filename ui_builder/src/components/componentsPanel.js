@@ -8,7 +8,6 @@ const ComponentsPanel = () => {
     <div className="components-panel">
       <h4 className="components-panel__title">Components</h4>
 
-      {/* grid wrapper */}
       <div className="draggable-components-grid">
         {COMPONENTS.map((comp, idx) => (
           <DraggableComponent key={`${comp.type}-${idx}`} component={comp} />

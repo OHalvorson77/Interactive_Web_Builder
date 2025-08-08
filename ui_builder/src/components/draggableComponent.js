@@ -26,7 +26,6 @@ const DraggableComponent = ({ component }) => {
     }
   };
 
-  // small visual preview colors (fallbacks)
   const previewBg = component.styles?.backgroundColor || "#ffffff";
   const previewColor = component.styles?.color || "#374151";
 
@@ -42,7 +41,6 @@ const DraggableComponent = ({ component }) => {
         style={{
           background: previewBg,
           color: previewColor,
-          // if background is transparent, show subtle border
           border: previewBg === "transparent" ? "1px solid #e5e7eb" : undefined,
         }}
       >

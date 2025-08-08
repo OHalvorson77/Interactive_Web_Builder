@@ -31,7 +31,6 @@ const RenderComponent = ({
     outline: isOver ? "2px dashed #a78bfa" : "none",
   };
 
-  // CONTAINER: droppable area that can hold children
   if (component.type === "container") {
     return (
       <div
@@ -56,7 +55,6 @@ const RenderComponent = ({
     );
   }
 
-  // NON-CONTAINERS: render directly without extra wrapper
   switch (component.type) {
     case "button":
       return (
