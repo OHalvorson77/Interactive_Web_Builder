@@ -20,14 +20,46 @@ const ComponentInspector = ({ component, onChange }) => {
   };
 
   const renderStyleField = (key, value) => {
+    // Dropdown options for certain style keys
+    const selectOptions = {
+      justifyContent: [
+        "",
+        "flex-start",
+        "flex-end",
+        "center",
+        "space-between",
+        "space-around",
+        "space-evenly",
+      ],
+      flexDirection: ["", "row", "row-reverse", "column", "column-reverse"],
+      alignItems: ["", "flex-start", "flex-end", "center", "stretch", "baseline"],
+    };
+
+    if (selectOptions[key]) {
+      return (
+        <div key={key} className="component-inspector__field">
+          <label className="component-inspector__label">{key}:</label>
+          <select
+            value={value}
+            onChange={(e) => handleStyleChange(key, e.target.value)}
+            className="component-inspector__select"
+          >
+            {selectOptions[key].map((opt) => (
+              <option key={opt} value={opt}>
+                {opt || "(default)"}
+              </option>
+            ))}
+          </select>
+        </div>
+      );
+    }
+
+    // Fallback to input type detection
     let inputType = "text";
     if (typeof value === "number") inputType = "number";
     if (typeof value === "boolean") inputType = "checkbox";
-    if (
-      typeof value === "string" &&
-      /^#([0-9A-F]{3}){1,2}$/i.test(value) // hex color
-    ) {
-      inputType = "color";
+    if (typeof value === "string" && /^#([0-9A-F]{3}){1,2}$/i.test(value)) {
+      inputType = "color"; // hex color
     }
 
     return (
