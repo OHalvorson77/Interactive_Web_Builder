@@ -2,15 +2,24 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const pageRoutes = require("./router/baseRouter"); // your router file
+const cors = require("cors");
+
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }));
+
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://127.0.0.1:27017/pagebuilder", {
+  .connect("mongodb://localhost:27017/Interactive_ui", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuid } from "uuid";
@@ -17,9 +18,10 @@ const CanvasEditorPage = () => {
   const pageId = "home"; // change this dynamically if needed
 
   useEffect(() => {
-    fetch(`localhost:3000/api/page/${pageId}`)
+    fetch(`http://localhost:3000/api/page/${pageId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load page");
+        console.log(res);
         return res.json();
       })
       .then((data) => {
@@ -31,7 +33,7 @@ const CanvasEditorPage = () => {
   }, [pageId]);
 
   const savePage = () => {
-    fetch(`localhost:3000/api/page/${pageId}`, {
+    fetch(`http://localhost:5000/api/page/${pageId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ components }),

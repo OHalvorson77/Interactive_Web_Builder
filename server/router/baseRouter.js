@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Page = require("../models/Page");
+const Page = require("../models/pages");
 
 router.post("/page/:id", async (req, res) => {
   const { components } = req.body;
