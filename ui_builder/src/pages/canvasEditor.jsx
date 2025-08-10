@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuid } from "uuid";
@@ -15,6 +14,36 @@ const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
+  const pageId = "home"; // change this dynamically if needed
+
+  useEffect(() => {
+    fetch(`localhost:3000/api/page/${pageId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load page");
+        return res.json();
+      })
+      .then((data) => {
+        setComponents(data.components || []);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [pageId]);
+
+  const savePage = () => {
+    fetch(`localhost:3000/api/page/${pageId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ components }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Saved page:", data);
+      })
+      .catch((err) => {
+        console.error("Error saving page:", err);
+      });
+  };
 
   const handleDrop = (item) => {
     const newItem = { ...item, id: uuid() };
@@ -75,6 +104,10 @@ const CanvasEditorPage = () => {
                   }}
                 />
               </div>
+
+              <button onClick={savePage} className="save-button">
+                Save Page
+              </button>
 
               <button
                 onClick={() => setShowSidebar(false)}
