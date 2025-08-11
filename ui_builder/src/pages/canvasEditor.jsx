@@ -15,7 +15,7 @@ const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
-  const pageId = "home"; // change this dynamically if needed
+  const [pageId, setPageId] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:3000/api/page/${pageId}`)
@@ -33,7 +33,10 @@ const CanvasEditorPage = () => {
   }, [pageId]);
 
   const savePage = () => {
-    fetch(`http://localhost:5000/api/page/${pageId}`, {
+    const newPageId = pageId || uuid();
+    setPageId(newPageId);
+
+    fetch(`http://localhost:5000/api/page/${newPageId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ components }),

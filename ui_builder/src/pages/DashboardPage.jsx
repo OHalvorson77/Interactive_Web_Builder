@@ -1,26 +1,39 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/pages/DashboardPage.css";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
 
   const canvases = [
-    { id: '1', name: 'Canvas 1' },
-    { id: '2', name: 'Canvas 2' },
-    { id: '3', name: 'Canvas 3' },
+    { id: "1", name: "Canvas 1" },
+    { id: "2", name: "Canvas 2" },
+    { id: "3", name: "Canvas 3" },
   ];
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <div className="grid grid-cols-3 gap-4">
+    <div className="dashboard-container">
+      <header className="dashboard-header">
+        <h1>🎨 My Canvases</h1>
+        <button
+          className="new-canvas-btn"
+          onClick={() => navigate("/canvas")}
+        >
+          + Create New Canvas
+        </button>
+      </header>
+
+      <div className="canvas-grid">
         {canvases.map((canvas) => (
           <div
             key={canvas.id}
-            className="p-4 bg-purple-100 border rounded cursor-pointer hover:bg-purple-200 transition"
-            onClick={() => navigate(`/canvas`)}
+            className="canvas-card"
+            onClick={() => navigate(`/canvas/${canvas.id}`)}
           >
-            {canvas.name}
+            <div className="canvas-thumbnail">
+              <span className="canvas-icon">🖌️</span>
+            </div>
+            <h2>{canvas.name}</h2>
           </div>
         ))}
       </div>
