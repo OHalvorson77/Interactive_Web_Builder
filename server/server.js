@@ -4,8 +4,6 @@ const bodyParser = require("body-parser");
 const pageRoutes = require("./router/baseRouter");
 const cors = require("cors");
 
-
-
 const app = express();
 
 app.use(bodyParser.json());
