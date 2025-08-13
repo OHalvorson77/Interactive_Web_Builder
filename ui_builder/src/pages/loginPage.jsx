@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/pages/loginPage.css"; 
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -7,7 +8,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const login = async () => {
-    const res = await fetch("http://localhost:5000/auth/login", {
+    const res = await fetch("http://localhost:5000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -23,23 +24,26 @@ export default function LoginPage() {
 
   return (
     <div className="auth-container">
-      <h1>Login</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={login}>Login</button>
-      <p onClick={() => navigate("/signup")} className="link">
-        No account? Sign up
-      </p>
+      <h1 className="welcome-title">Welcome to Interactive Dashboard</h1>
+      <div className="auth-box">
+        <h2>Login</h2>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button onClick={login}>Login</button>
+        <p onClick={() => navigate("/signup")} className="link">
+          No account? Sign up
+        </p>
+      </div>
     </div>
   );
 }
