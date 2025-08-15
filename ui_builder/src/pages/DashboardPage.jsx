@@ -4,19 +4,19 @@ import "../styles/pages/DashboardPage.css";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
-  const location = useLocation(); // ✅ Use React Router hook
+  const location = useLocation(); 
   const [canvases, setCanvases] = useState([]);
   const [loading, setLoading] = useState(true);
   const userId = location.state?.userId || "Guest";
 
-  // Fetch canvases from backend on mount
   useEffect(() => {
     const fetchCanvases = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/pages?userId=${encodeURIComponent(userId)}', {
-          headers: { "Content-Type": "application/json" },
-        });
+        const res = await fetch(`http://localhost:5000/api/pages?userId=${encodeURIComponent(userId)}`, {
+  headers: { "Content-Type": "application/json" },
+});
         const data = await res.json();
+        console.log(data);
         setCanvases(data);
       } catch (err) {
         console.error("Error fetching canvases:", err);
@@ -27,7 +27,6 @@ export default function DashboardPage() {
     fetchCanvases();
   }, []);
 
-  // Create new canvas in backend
   const handleCreateCanvas = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/pages", {

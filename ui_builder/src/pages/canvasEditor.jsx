@@ -3,6 +3,9 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuid } from "uuid";
 
+import { useParams } from "react-router-dom";
+
+
 import DraggableComponent from "../components/draggableComponent";
 import DroppableCanvas from "../components/droppableCanvas";
 import { COMPONENTS } from "../data/COMPONENTS";
@@ -15,7 +18,9 @@ const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
-  const [pageId, setPageId] = useState(null);
+  const { id } = useParams();   
+
+  const [pageId, setPageId] = useState(id || "unknown");
 
   useEffect(() => {
     fetch(`http://localhost:3000/api/page/${pageId}`)
@@ -44,9 +49,11 @@ const CanvasEditorPage = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log("Saved page:", data);
+        alert("Page successfully saved!");
+
       })
       .catch((err) => {
-        console.error("Error saving page:", err);
+        alert("Error saving page: " + err.message);
       });
   };
 

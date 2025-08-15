@@ -89,7 +89,9 @@ router.post("/pages", async (req, res) => {
 router.get("/pages", async (req, res) => {
   try {
     const { userId } = req.query;
+    console.log("Fetching pages for userId:", userId);
     const pages = await Page.find({ userId });
+    console.log(pages);
     res.json(pages);
   } catch (err) {
     res.status(500).json({ error: "Failed to load pages" });
