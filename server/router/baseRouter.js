@@ -12,7 +12,7 @@ router.post("/signup", async (req, res) => {
     if (existing) return res.status(400).json({ error: "Email already in use" });
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashed, passwordToCompare: password });
+    const user = new User({ email, password: hashed, userId: uuidv4()  });
     await user.save();
     res.json({ message: "User created" });
   } catch (err) {
@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     if (!valid) return res.status(400).json({ error: "Invalid credentials" });
 
     
-    res.json({token: true});
+    res.json({token: true, userId: user.userId});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -67,17 +67,16 @@ router.get("/page/:id", async (req, res) => {
   }
 });
 
-// Create new page for logged-in user
+
 router.post("/pages", async (req, res) => {
   try {
-    const { name } = req.body;
-    const userId = req.user._id; // assuming you set req.user in auth middleware
+    const { name, userId } = req.body;
 
     const page = new Page({
       id: uuidv4(),
       name: name || "Untitled Canvas",
       components: [],
-      userId
+      userId: userId, 
     });
 
     await page.save();
@@ -89,7 +88,7 @@ router.post("/pages", async (req, res) => {
 
 router.get("/pages", async (req, res) => {
   try {
-    const userId = req.user._id;
+    const { userId } = req.query;
     const pages = await Page.find({ userId });
     res.json(pages);
   } catch (err) {

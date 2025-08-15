@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/pages/DashboardPage.css";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
+  const location = useLocation(); // ✅ Use React Router hook
   const [canvases, setCanvases] = useState([]);
   const [loading, setLoading] = useState(true);
+  const userId = location.state?.userId || "Guest";
 
   // Fetch canvases from backend on mount
   useEffect(() => {
     const fetchCanvases = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/canvases", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // if you use JWT
-          },
+        const res = await fetch('http://localhost:5000/api/pages?userId=${encodeURIComponent(userId)}', {
+          headers: { "Content-Type": "application/json" },
         });
         const data = await res.json();
         setCanvases(data);
@@ -30,13 +30,12 @@ export default function DashboardPage() {
   // Create new canvas in backend
   const handleCreateCanvas = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/canvases", {
+      const res = await fetch("http://localhost:5000/api/pages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({ name: "Untitled Canvas" }),
+        body: JSON.stringify({ name: "Untitled Canvas", userId: userId }),
       });
       const newCanvas = await res.json();
       navigate(`/canvas/${newCanvas.id}`);

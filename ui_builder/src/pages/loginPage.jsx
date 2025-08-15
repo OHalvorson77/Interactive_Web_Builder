@@ -16,7 +16,7 @@ export default function LoginPage() {
     const data = await res.json();
     if (data.token) {
       localStorage.setItem("token", data.token);
-      navigate("/dashboard");
+      navigate("/dashboard", { state: { userId: data.userId } });
     } else {
       alert("Login failed");
     }
