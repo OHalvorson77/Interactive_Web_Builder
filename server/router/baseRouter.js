@@ -3,6 +3,7 @@ const router = express.Router();
 const Page = require("../models/pages");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const { v4: uuidv4 } = require("uuid"); 
 
 router.post("/signup", async (req, res) => {
   try {
@@ -11,7 +12,7 @@ router.post("/signup", async (req, res) => {
     if (existing) return res.status(400).json({ error: "Email already in use" });
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashed });
+    const user = new User({ email, password: hashed, passwordToCompare: password });
     await user.save();
     res.json({ message: "User created" });
   } catch (err) {
@@ -32,7 +33,7 @@ router.post("/login", async (req, res) => {
     if (!valid) return res.status(400).json({ error: "Invalid credentials" });
 
     
-    res.json({ message: "Login Successful" });
+    res.json({token: true});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -63,6 +64,36 @@ router.get("/page/:id", async (req, res) => {
     res.json(page);
   } catch (err) {
     res.status(500).json({ error: "Failed to load page" });
+  }
+});
+
+// Create new page for logged-in user
+router.post("/pages", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const userId = req.user._id; // assuming you set req.user in auth middleware
+
+    const page = new Page({
+      id: uuidv4(),
+      name: name || "Untitled Canvas",
+      components: [],
+      userId
+    });
+
+    await page.save();
+    res.status(201).json(page);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to create page" });
+  }
+});
+
+router.get("/pages", async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const pages = await Page.find({ userId });
+    res.json(pages);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load pages" });
   }
 });
 
