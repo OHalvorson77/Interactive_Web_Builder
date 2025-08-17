@@ -23,7 +23,7 @@ const CanvasEditorPage = () => {
   const [pageId, setPageId] = useState(id || "unknown");
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/page/${pageId}`)
+    fetch(`http://localhost:5000/api/page/${pageId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load page");
         console.log(res);

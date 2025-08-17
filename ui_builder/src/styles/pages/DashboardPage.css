@@ -1,7 +1,7 @@
 .dashboard-container {
   padding: 2rem;
   font-family: "Segoe UI", sans-serif;
-  background: #f9f9fb;
+  background: linear-gradient(120deg, #6a11cb, #2575fc);
   min-height: 100vh;
 }
 
