@@ -11,20 +11,45 @@ const DraggableComponent = ({ component }) => {
     }),
   }));
 
-  const getIcon = (type) => {
-    switch (type) {
-      case "button":
-        return "🔘";
-      case "text":
-        return "📝";
-      case "input":
-        return "⌨️";
-      case "container":
-        return "📦";
-      default:
-        return "🔧";
-    }
-  };
+const getIcon = (type) => {
+  switch (type) {
+    case "button":
+      return "🔘";
+    case "text":
+      return "📝";
+    case "heading":
+      return "🔠";
+    case "link":
+      return "🔗";
+    case "input":
+      return "⌨️";
+    case "textarea":
+      return "📄";
+    case "select":
+      return "🔽";
+    case "checkbox":
+      return "☑️";
+    case "radio":
+      return "⭕";
+    case "image":
+      return "🖼️";
+    case "video":
+      return "🎬";
+    case "divider":
+      return "➖";
+    case "list":
+      return "📋";
+    case "card":
+      return "🃏";
+    case "row":
+      return "📏";
+    case "container":
+      return "📦";
+    default:
+      return "🔧"; // fallback
+  }
+};
+
 
   const previewBg = component.styles?.backgroundColor || "#ffffff";
   const previewColor = component.styles?.color || "#374151";
