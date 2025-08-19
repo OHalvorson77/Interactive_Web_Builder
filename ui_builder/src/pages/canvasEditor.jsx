@@ -3,16 +3,22 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuid } from "uuid";
 import { useParams } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+
 
 import DraggableComponent from "../components/draggableComponent";
 import DroppableCanvas from "../components/droppableCanvas";
 import { COMPONENTS } from "../data/COMPONENTS";
 import ComponentInspector from "../components/componentInspector";
+import { useNavigate } from "react-router-dom";
+
 
 import "../styles/pages/CanvasEditorPage.css";
 import "../styles/components/DraggableComponent.css";
 
 const CanvasEditorPage = () => {
+    const navigate = useNavigate();
+
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -86,11 +92,19 @@ const CanvasEditorPage = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="container-grid">
-        {/* Sidebar */}
         {showSidebar && (
           <div className="sidebar">
+            <div className="sidebar-topbar">
+  <button
+    className="home-button"
+    onClick={() => (navigate("/dashboard") )} 
+  >
+        <FaHome size={18} />
+
+  </button>
+</div>
+
             <div className="sidebar-inner">
-              {/* Components Section */}
               <div className="sidebar-section">
                 <div className="section-header">
                   <h2>Components</h2>
@@ -112,7 +126,6 @@ const CanvasEditorPage = () => {
 
               <hr className="section-divider" />
 
-              {/* Editor Section */}
               <div className="sidebar-section">
                 <div className="section-header">
                   <h2>Editor</h2>
@@ -139,14 +152,12 @@ const CanvasEditorPage = () => {
 
               <hr className="section-divider" />
 
-              {/* Save Button */}
               <div className="sidebar-actions">
                 <button onClick={savePage} className="save-button">
                   Save Page
                 </button>
               </div>
 
-              {/* Sidebar Close */}
               <button
                 onClick={() => setShowSidebar(false)}
                 className="toggle-button"
@@ -158,7 +169,6 @@ const CanvasEditorPage = () => {
           </div>
         )}
 
-        {/* Sidebar Open Button */}
         {!showSidebar && (
           <button
             onClick={() => setShowSidebar(true)}
@@ -169,7 +179,6 @@ const CanvasEditorPage = () => {
           </button>
         )}
 
-        {/* Canvas */}
         <div className="main-canvas">
           <DroppableCanvas
             components={components}

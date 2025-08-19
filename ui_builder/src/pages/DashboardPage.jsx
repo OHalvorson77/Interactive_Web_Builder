@@ -50,7 +50,7 @@ export default function DashboardPage() {
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
-        <h1>🎨 My Canvases</h1>
+        <h1>My Pages</h1>
         <button
           className="new-canvas-btn"
           onClick={handleCreateCanvas}
