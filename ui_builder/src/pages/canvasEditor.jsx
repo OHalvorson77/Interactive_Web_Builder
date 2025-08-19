@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuid } from "uuid";
-
 import { useParams } from "react-router-dom";
-
 
 import DraggableComponent from "../components/draggableComponent";
 import DroppableCanvas from "../components/droppableCanvas";
@@ -18,15 +16,16 @@ const CanvasEditorPage = () => {
   const [components, setComponents] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [showSidebar, setShowSidebar] = useState(true);
-  const { id } = useParams();   
+  const [showComponentsSection, setShowComponentsSection] = useState(true);
+  const [showEditorSection, setShowEditorSection] = useState(true);
 
+  const { id } = useParams();
   const [pageId, setPageId] = useState(id || "unknown");
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/page/${pageId}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to load page");
-        console.log(res);
         return res.json();
       })
       .then((data) => {
@@ -50,7 +49,6 @@ const CanvasEditorPage = () => {
       .then((data) => {
         console.log("Saved page:", data);
         alert("Page successfully saved!");
-
       })
       .catch((err) => {
         alert("Error saving page: " + err.message);
@@ -88,39 +86,67 @@ const CanvasEditorPage = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="container-grid">
-        <div className="sidebar">
-          {showSidebar && (
-            <div className="relative">
-              <div>
-                <h2>Components</h2>
-
-                <div className="draggable-components-grid">
-                  {COMPONENTS.map((component, i) => (
-                    <DraggableComponent key={i} component={component} />
-                  ))}
+        {/* Sidebar */}
+        {showSidebar && (
+          <div className="sidebar">
+            <div className="sidebar-inner">
+              {/* Components Section */}
+              <div className="sidebar-section">
+                <div className="section-header">
+                  <h2>Components</h2>
+                  <button
+                    onClick={() => setShowComponentsSection((prev) => !prev)}
+                    className="section-toggle"
+                  >
+                    {showComponentsSection ? "▼" : "▶"}
+                  </button>
                 </div>
+                {showComponentsSection && (
+                  <div className="draggable-components-grid">
+                    {COMPONENTS.map((component, i) => (
+                      <DraggableComponent key={i} component={component} />
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <hr />
+              <hr className="section-divider" />
 
-              <div className="editor-section">
-                <h2>Editor</h2>
-                <ComponentInspector
-                  component={components[selectedIndex]}
-                  onChange={(updatedComponent) => {
-                    setComponents((prev) =>
-                      prev.map((comp, i) =>
-                        i === selectedIndex ? updatedComponent : comp
-                      )
-                    );
-                  }}
-                />
+              {/* Editor Section */}
+              <div className="sidebar-section">
+                <div className="section-header">
+                  <h2>Editor</h2>
+                  <button
+                    onClick={() => setShowEditorSection((prev) => !prev)}
+                    className="section-toggle"
+                  >
+                    {showEditorSection ? "▼" : "▶"}
+                  </button>
+                </div>
+                {showEditorSection && (
+                  <ComponentInspector
+                    component={components[selectedIndex]}
+                    onChange={(updatedComponent) => {
+                      setComponents((prev) =>
+                        prev.map((comp, i) =>
+                          i === selectedIndex ? updatedComponent : comp
+                        )
+                      );
+                    }}
+                  />
+                )}
               </div>
 
-              <button onClick={savePage} className="save-button">
-                Save Page
-              </button>
+              <hr className="section-divider" />
 
+              {/* Save Button */}
+              <div className="sidebar-actions">
+                <button onClick={savePage} className="save-button">
+                  Save Page
+                </button>
+              </div>
+
+              {/* Sidebar Close */}
               <button
                 onClick={() => setShowSidebar(false)}
                 className="toggle-button"
@@ -129,9 +155,10 @@ const CanvasEditorPage = () => {
                 &lt;
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
+        {/* Sidebar Open Button */}
         {!showSidebar && (
           <button
             onClick={() => setShowSidebar(true)}
@@ -142,6 +169,7 @@ const CanvasEditorPage = () => {
           </button>
         )}
 
+        {/* Canvas */}
         <div className="main-canvas">
           <DroppableCanvas
             components={components}
