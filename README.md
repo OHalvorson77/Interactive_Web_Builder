@@ -14,6 +14,7 @@ Multi-page projects under a single domain
 Advanced collaboration features
 
 Features
+
 User Authentication – Secure login with encrypted passwords
 Account Management – Each user can manage their own set of designed pages
 Page Builder UI – Select from pre-built components and customize their styling
