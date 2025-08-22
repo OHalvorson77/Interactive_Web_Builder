@@ -4,6 +4,7 @@ Overview
 
 Interactive Web Builder is a full-stack web application that allows users to design and manage custom web pages in their own accounts. Users can log in, create or edit pages, and select from a variety of pre-built components with customizable styling.
 The frontend is built with React (JSX), with a clean separation between pages, components, and associated stylesheets. The backend is powered by Express.js and uses MongoDB for persistent storage of users, components, and project data. All user passwords are securely encrypted.
+
 In the future, this project could expand to support:
 
 Automatic deployment of user-created pages
