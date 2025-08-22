@@ -16,9 +16,13 @@ Advanced collaboration features
 Features
 
 User Authentication – Secure login with encrypted passwords
+
 Account Management – Each user can manage their own set of designed pages
+
 Page Builder UI – Select from pre-built components and customize their styling
+
 Component Library – Reusable React components with isolated CSS under /styles
+
 Full-Stack Architecture – React frontend with Express + MongoDB backend
 
 Tech Stack
